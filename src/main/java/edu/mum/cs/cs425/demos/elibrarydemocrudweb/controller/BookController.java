@@ -91,7 +91,7 @@ public class BookController {
     		ModelAndView modelAndView = new ModelAndView();	      
 	        modelAndView.addObject("books", bookService.getSearchedBooks(pageNo, book));
 	        System.out.println(book);
-	        modelAndView.addObject("currentPageNo", pageNo); //current page no
+	        modelAndView.addObject("currentPageNo", pageNo);
 	        modelAndView.setViewName("book/list");
 	        return modelAndView;
     }
