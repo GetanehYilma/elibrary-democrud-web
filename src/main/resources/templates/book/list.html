@@ -24,6 +24,9 @@
                 <li class="nav-item" style="border-left: white 1px solid; padding-left: 2em; padding-right: 2em;">
                     <a class="nav-link" href="/elibrary/book/list">Books</a>
                 </li>
+                                 <li class="nav-item" style="border-left: white 1px solid; padding-left: 2em; padding-right: 2em;">
+                    <a class="nav-link" href="/elibrary/book/search">Search</a>
+                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <span style="color:#fff;padding-left: 2em; padding-right: 1em;">Welcome, Guest</span>
@@ -60,7 +63,7 @@
                 <tbody>
                 <tr th:each="book,iterStat : ${books}">
                     <!--th:onclick="@{document.location='/elibrary/book/edit/{bookId}'(bookId=${book.bookId})}" -->
-                    <th scope="row" th:text="${iterStat.count}"></th>
+                    <th scope="row" th:text="${iterStat.count}+${currentPageNo}*5"></th>
                     <td th:text="${book.isbn}"></td>
                     <td th:text="${book.title}"></td>
                     <td th:text="${book.overdueFee}"></td>
@@ -69,31 +72,28 @@
                     <td><a th:href="@{'/elibrary/book/edit/{bookId}'(bookId=${book.bookId})}">Edit</a></td>
                     <td>
                         <a data-toggle="modal" data-target="#confirmDeleteBookModal" th:href="@{'/elibrary/book/delete/' + ${book.bookId}}">Delete</a>
-<!--                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">-->
-<!--                            Launch demo modal-->
-<!--                        </button>-->
+
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <!-- Pagination -->
-            <div>
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">Pages: </a>
-                    </li>
-                    <li th:each="i : ${#numbers.sequence(1, books.totalPages)}"
-                        th:class="${currentPageNo}==${i-1}?'page-item active':'page-item'">
-                        <a th:href="@{/elibrary/book/list(pageno=${i-1})}"
-                           th:text="${i}" class = "page-link"></a>
-                    </li>
-                </ul>
-            </div>
-
         </div>
     </div>
-
-
+	<div>
+	 <nav aria-label="pagination">
+	                <ul class="pagination justify-content-center">
+	                    <li class="page-item disabled">
+	                        <a class="page-link" href="#">Pages: </a>
+	                    </li>
+	                    <li th:each="i : ${#numbers.sequence(1, books.totalPages)}"
+	                        th:class="${currentPageNo}==${i-1}?'page-item active':'page-item'">
+	                        <a th:href="@{/elibrary/book/list(pageNo=${i-1})}"
+	                           th:text="${i}" class = "page-link"></a>
+	                    </li>                    
+	                    
+	                </ul>
+	 </nav>
+	 </div>
     <!-- Modal -->
     <div class="modal fade" id="confirmDeleteBookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
